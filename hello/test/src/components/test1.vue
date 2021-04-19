@@ -1,76 +1,138 @@
 <template>
-  <el-container>
-     <el-header>
-       <router-link to="/test2">
-         <el-row>
-           <el-button>入口段</el-button>
-         </el-row>
-       </router-link>
-       <el-row>
-         <el-button>入口段</el-button>
-       </el-row>
-       <el-row>
-         <el-button>入口段</el-button>
-       </el-row>
-       <el-row>
-         <el-button>入口段</el-button>
-       </el-row>
-       <el-row>
-         <el-button>入口段</el-button>
-       </el-row>
-       <el-row>
-         <el-button>入口段</el-button>
-       </el-row>
-       <el-row>
-         <el-button>入口段</el-button>
-       </el-row>
-<!--       <el-row>
-         <a href="mycoolapp://empid=10000">ddd</a>
-       </el-row> -->
-     </el-header>
-  </el-container>
+       <div class="container">
+           <img class="img" src="../assets/1.png" alt="">
+           <div class=" box one" @click="fun1"></div>
+           <div class=" box two" @click="fun1"></div>
+           <div class=" box there" @click="fun1"></div>
+           <div class=" box four" @click="fun1"></div>
+           <div class=" box five" @click="fun1"></div>
+           <div class=" box six" @click="fun1"></div>
+           <div class=" box seven" @click="fun1"></div>
+           <div class=" box eight" @click="fun1"></div>
+           <div class=" box nine" @click="fun1"></div>
+           <div class=" box ten" @click="fun1"></div>
+           <div class=" box eleven" @click="fun1"></div>
+           <div class=" box twelev" @click="fun1"></div>
+           <el-dialog
+             title=""
+             :visible.sync="dialog1"
+             width="85%"
+             :modal-append-to-body="false"
+             center>
+             <test2></test2>
+           </el-dialog>
+       </div>
+
 </template>
 
 <script>
+  import test2 from './test2.vue'
   export default{
+    data(){
+      return {
+        dialog1: false
+      }
+    },
     methods:{
-clickDownload()
-     {
-      var that = this;
-      if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i))
-      {
-       var loadDateTime = new Date();
-       window.location = "myapp://myhost/open/info?id=10000"; //schema链接或者universal link
-       // window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
-       //     var timeOutDateTime = new Date();
-       //     if (timeOutDateTime - loadDateTime < 5000) {
-       //         window.location = "http://www.baidu.com"; //ios下载地址
-       //     } else {
-       //         window.close();
-       //     }
-       // }, 1000);
-
+      fun1(){
+        this.dialog1 = true
       }
-      else if (navigator.userAgent.match(/android/i))
-      {
-       var state = null;
-       try
-       {
-        that.msg = window.location.href;
-        //window.location = 'myapp://myhost/open/info?id=10000'; //schema链接或者universal link
-        //window.open('myapp://myhost/open/info?id=10000', 'newwindow');
-        window.location = 'mycoolapp://empid=10000';
-        window.setTimeout(function()
-        {
-         window.location = "http://www.baidu.com"; //android下载地址
-        }, 1000);
-       }
-       catch (e) {}
-      }
-     },
+    },
+    components:{
+      test2
     }
   }
 </script>
 
 <style>
+  .container{
+      width: 80vw;
+      height: 44vh;
+      /* border: 1px solid black; */
+      margin: 200px auto;
+  }
+  body{
+      position: relative;
+      width: 100%;
+  }
+  .img{
+      width: 80vw;
+      height: 44vh;
+  }
+  .box{
+      border: 1px solid red;
+      position: absolute;
+  }
+  .one{
+      width: 3vw;
+      height: 10vh;
+      left: 10vw;
+      top: 27vh;
+  }
+  .two{
+      width: 5vw;
+      height: 11vh;
+      left: 17vw;
+      top: 22vh;
+  }
+  .there{
+      width: 21.5vw;
+      height: 10vh;
+      left: 16vw;
+      top: 33.5vh;
+  }
+  .four{
+      width: 16vw;
+      height: 21vh;
+      left: 26vw;
+      top: 7vh;
+  }
+  .five{
+      width: 5vw;
+      height: 22vh;
+      left: 43vw;
+      top: 2vh;
+  }
+  .six{
+      width: 4.5vw;
+      height: 8vh;
+      left: 43vw;
+      top: 28vh;
+  }
+  .seven{
+      width: 5vw;
+      height: 17vh;
+      left: 50vw;
+      top: 11vh;
+  }
+  .eight{
+      width: 3vw;
+      height: 13vh;
+      left: 58vw;
+      top: 17vh;
+  }
+  .nine{
+      width: 3vw;
+      height: 8vh;
+      left: 65vw;
+      top: 18.5vh;
+  }
+  .ten{
+      width: 3vw;
+      height: 9vh;
+      left: 72vw;
+      top: 14vh;
+  }
+  .eleven{
+      width: 14.5vw;
+      height: 9.5vh;
+      left: 62.5vw;
+      top: 27.5vh;
+  }
+  .twelev{
+      width: 3vw;
+      height: 10vh;
+      left: 85vw;
+      top: 26vh;
+  }
 </style>
