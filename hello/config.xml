@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!-- 项目id和版本号 -->
+<widget id="com.example.hello" version="1.0.0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <!-- 项目的名字，描述和作者信息 -->
+		<name>HelloWorld</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+		<!-- cordova默认启动哪个文件 -->
+    <content src="index.html" />
+		<!-- 插件配置 -->
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+		<!-- 定义允许应用程序与之通信的外部域集。 -->
+    <access origin="*" />
+		<!-- 定义允许应用程序请求系统打开的URL。 -->
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+		<allow-intent href="mycoolapp://*/*" />
+		<!-- 手机平台 -->
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+		<!-- 权限管理 -->
+		<config-file parent="/*" target="AndroidManifest.xml">
+				<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+				<uses-permission android:name="android.permission.CAMERA" />
+		</config-file>
+</widget>

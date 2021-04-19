@@ -1,0 +1,76 @@
+<template>
+  <el-container>
+     <el-header>
+       <router-link to="/test2">
+         <el-row>
+           <el-button>入口段</el-button>
+         </el-row>
+       </router-link>
+       <el-row>
+         <el-button>入口段</el-button>
+       </el-row>
+       <el-row>
+         <el-button>入口段</el-button>
+       </el-row>
+       <el-row>
+         <el-button>入口段</el-button>
+       </el-row>
+       <el-row>
+         <el-button>入口段</el-button>
+       </el-row>
+       <el-row>
+         <el-button>入口段</el-button>
+       </el-row>
+       <el-row>
+         <el-button>入口段</el-button>
+       </el-row>
+<!--       <el-row>
+         <a href="mycoolapp://empid=10000">ddd</a>
+       </el-row> -->
+     </el-header>
+  </el-container>
+</template>
+
+<script>
+  export default{
+    methods:{
+clickDownload()
+     {
+      var that = this;
+      if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i))
+      {
+       var loadDateTime = new Date();
+       window.location = "myapp://myhost/open/info?id=10000"; //schema链接或者universal link
+       // window.setTimeout(function() { //如果没有安装app,便会执行setTimeout跳转下载页
+       //     var timeOutDateTime = new Date();
+       //     if (timeOutDateTime - loadDateTime < 5000) {
+       //         window.location = "http://www.baidu.com"; //ios下载地址
+       //     } else {
+       //         window.close();
+       //     }
+       // }, 1000);
+
+      }
+      else if (navigator.userAgent.match(/android/i))
+      {
+       var state = null;
+       try
+       {
+        that.msg = window.location.href;
+        //window.location = 'myapp://myhost/open/info?id=10000'; //schema链接或者universal link
+        //window.open('myapp://myhost/open/info?id=10000', 'newwindow');
+        window.location = 'mycoolapp://empid=10000';
+        window.setTimeout(function()
+        {
+         window.location = "http://www.baidu.com"; //android下载地址
+        }, 1000);
+       }
+       catch (e) {}
+      }
+     },
+    }
+  }
+</script>
+
+<style>
+</style>
