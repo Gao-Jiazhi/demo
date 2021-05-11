@@ -23,6 +23,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
 		<allow-intent href="mycoolapp://*/*" />
+		<preference name="AndroidPersistentFileLocation" value="Compatibility" />
 		<!-- 手机平台 -->
     <platform name="android">
         <allow-intent href="market:*" />
