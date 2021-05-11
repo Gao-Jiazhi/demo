@@ -39,10 +39,11 @@ export default {
 
 <style lang="less">
 #scroll-board {
-  width: 50%;
+  width: 100%;
+  height: 340px;
   box-sizing: border-box;
-  margin-left: 20px;
-  height: 500px;
+  // margin-left: 20px;
+  height: 400px;
   overflow: hidden;
 }
 </style>
