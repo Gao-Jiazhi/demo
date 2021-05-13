@@ -12,6 +12,7 @@ import './assets/css/test2.css'
 import './assets/common.less'
 
 import dataV from '@jiaminghi/data-view'
+import store from '@/store/index.js'
 
 
 // Vue.use(dataV)
@@ -22,6 +23,7 @@ Vue.use(ElementUI).use(dataV).use(less)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
