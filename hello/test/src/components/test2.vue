@@ -1,10 +1,13 @@
 <template>
   <div>
-    <el-button style="float: left;" @click="add">新增</el-button><el-button style="float: left;" @click="printExcel">打印</el-button><el-button style="float: left;" @click="takephoto">拍照</el-button><span style="float: left;">已完成{{count1}}</span><span style="float: left;">未完成{{count2}}</span>
+    <a class="abutton" href="javascript:void(0);" @click="add">新增</a>
+    <a class="abutton"  href="javascript:void(0);" @click="printExcel">打印</a>
+    <a class="abutton"  href="javascript:void(0);" @click="takephoto">拍照</a>
+   <span>已完成{{count1}}</span><span>未完成{{count2}}</span><span>总分{{totalCount}}</span>
     <el-table :data="tableData"  height="500" :key="itemkey" size="mini" fit="false" :header-cell-style="{background:'#4DFFFF',color:'#606266'}">
       <el-table-column :render-header="renderHeader" label="C508机组通道线的点检表,2819218" align="center">
         <el-table-column>
-          <el-table-column label="序号" width="120" align="center">
+          <el-table-column label="序号" width="150" align="center">
             <template slot-scope="scope">
             {{scope.$index +1}}
             </template>
@@ -187,6 +190,7 @@
 </template>
 
 <script>
+
 import saveAs from 'file-saver'
 const ExcelJS = require('exceljs');
 var moment = require('moment');
@@ -295,7 +299,8 @@ export default {
       img1:'',
       img1arry:[],
       img2arry:[],
-      img2:''
+      img2:'',
+      totalCount:0
     }
   },
 computed: {
@@ -309,48 +314,43 @@ watch:{
 
 },
   methods: {
+    createAndWriteFile(dataObj,write,onErrorCreateFile){
+        //临时数据保存
+      window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
 
- createAndWriteFile(dataObj,write,onErrorCreateFile){
-      //临时数据保存
-window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
-
-      fs.root.getFile("1.xlsx", { create: true, exclusive: false }, function (fileEntry) {
-          // fileEntry.name == 'someFile.txt'
-          // fileEntry.fullPath == '/someFile.txt'
-          try{
-             write(fileEntry, dataObj)
-             alert("打印完成")
-          }catch(e){
-            //TODO handle the exception
-            alert(e)
-          }
-
-
-      }, onErrorCreateFile);
-}, this.onErrorLoadFs)
-},
-     writeFile(fileEntry, dataObj) {
-        // Create a FileWriter object for our FileEntry (log.txt).
-        fileEntry.createWriter(function (fileWriter) {
-
-            fileWriter.onwriteend = function() {
-                console.log("Successful file write...");
-                readFile(fileEntry);
-            };
-
-            fileWriter.onerror = function (e) {
-                console.log("Failed file write: " + e.toString());
-            };
-
-            // If data object is not passed in,
-            // create a new Blob instead.
-            if (!dataObj) {
-                dataObj = new Blob(['some file data'], { type: 'text/plain' });
+        fs.root.getFile("1.xlsx", { create: true, exclusive: false }, function (fileEntry) {
+            // fileEntry.name == 'someFile.txt'
+            // fileEntry.fullPath == '/someFile.txt'
+            try{
+               write(fileEntry, dataObj)
+               alert("打印完成")
+            }catch(e){
+              //TODO handle the exception
+              alert(e)
             }
 
-            fileWriter.write(dataObj);
-        });
+
+        }, onErrorCreateFile);
+      }, this.onErrorLoadFs)
     },
+   writeFile(fileEntry, dataObj) {
+      // Create a FileWriter object for our FileEntry (log.txt).
+      fileEntry.createWriter(function (fileWriter) {
+          fileWriter.onwriteend = function() {
+              console.log("Successful file write...");
+              readFile(fileEntry);
+          };
+          fileWriter.onerror = function (e) {
+              console.log("Failed file write: " + e.toString());
+          };
+          // If data object is not passed in,
+          // create a new Blob instead.
+          if (!dataObj) {
+              dataObj = new Blob(['some file data'], { type: 'text/plain' });
+          }
+          fileWriter.write(dataObj);
+      });
+  },
 
     //文件创建失败回调
       onErrorCreateFile(error){
@@ -394,7 +394,6 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
         arr.push('')
         dd.push(arr)
       }
-      console.log(dd)
       return dd
     },
 
@@ -447,18 +446,13 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
       }
       A1.alignment = { vertical: 'middle', horizontal: 'center' };
       sheet.mergeCells('C1:I1')
-      sheet.getCell('I1').value = 'C508机组通道线的点检表'
+      sheet.getCell('I1').value = 'C808机组通道线的点检表'
       sheet.getCell('I1').font = {
         size: 20,
         bold: true
       }
       sheet.getCell('I1').alignment = { vertical: 'middle', horizontal: 'center' }
-      sheet.mergeCells('J1:K1')
-      sheet.getCell('J1').value = '报表编号：DX-508-04'
-      sheet.getCell('J1').font = {
-        size: 9
-      }
-      sheet.getCell('J1').alignment = { vertical: 'middle', horizontal: 'center' }
+
 
 
       sheet.mergeCells('A3','A4')
@@ -555,10 +549,6 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
     });
     },
 
-
-
-
-
     // 获取上传时间
     getTime(){
     return moment(new Date(new Date())).format('YYYY-MM-DD,HH')
@@ -595,8 +585,7 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
     renderHeader(h, {column}) {
     	return [h('div', [
         h('span',{style:'float:left;font-size:12px;'},'20150316'),
-    		h('span',{style:'font-size:24px;'},'C508机组通道线的点检表'),
-    		h('span',{style:'float:right;font-size:12px;'},'报表编号：DX-508-04')
+    		h('span',{style:'font-size:24px;'},'C808机组通道线的点检表')
     	])];
     },
     handleRemove (file,index,scope) {
@@ -628,26 +617,22 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
         this.count2++
       }
     },
+    //点击预览图片
     handlePictureCardPreview (file) {
-      // console.log(this.$refs.upload.uploadFiles)
-      // console.log(this.imagelist)
-      // console.log(file)
-      // console.log(fileList)
       this.dialogImageUrl = file.url
       this.dialogVisible = true
-
     },
     handleDownload (file) {
       console.log(file)
     },
-    handlechange () {
-      //this.$forceUpdate()
-    },
     handleclick (values) {
       this.tableData.push({ events: [], name: '' })
       this.tableData.splice(this.tableData.length - 1, 1)
-      //this.$forceUpdate()
     },
+    totalAdd(val){
+      this.totalCount += val
+    },
+    //调用相机进行拍照
     takephoto () {
       navigator.camera.getPicture(onSuccess, onFail, {
         quality: 100,
@@ -661,14 +646,13 @@ window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function (fs) {
         // alert("fail")
     }
   },
-  //新增
+  //控制新增dialog的显示
   add(){
     this.dialogFormVisible = true
   },
+  //新增点击确认后插入数据
   clickAddConfirm(value){
-    console.log("value",value)
     this.tableData.push(value)
-    console.log("tabledata",this.tableData)
     this.form = {
         adress: '',
         checkPhoto: '',
@@ -705,4 +689,5 @@ clear: both;
 .disabled .el-upload--picture-card {
     display: none;
 }
+
 </style>

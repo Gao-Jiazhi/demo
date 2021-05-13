@@ -10,7 +10,9 @@
   <el-button type="primary">大定修</el-button>
 </el-row> -->
 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+  <router-link to="/test1">
    <el-menu-item index="1">小定修</el-menu-item>
+  </router-link>
    <el-menu-item index="2">大定修</el-menu-item>
 </el-menu>
  <div class="main-content">

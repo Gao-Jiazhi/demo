@@ -7,8 +7,9 @@ import ElementUI from 'element-ui'
 import less from 'less'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/iconfont/iconfont.css'
+import './assets/css/test2.css'
 
-import '@/assets/common.less'
+import './assets/common.less'
 
 import dataV from '@jiaminghi/data-view'
 
