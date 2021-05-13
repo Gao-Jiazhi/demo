@@ -73,8 +73,9 @@ export default {
 
 <style lang="less">
 #rose-chart {
-  width: 30%;
-  height: 500px;
+  width: 32%;
+  // padding-right: 30px;
+  height: 360px;
   background-color: rgba(6, 30, 93, 0.5);
   border-top: 2px solid rgba(1, 153, 209, .5);
   box-sizing: border-box;
@@ -86,6 +87,7 @@ export default {
     font-size: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .dv-charts-container {

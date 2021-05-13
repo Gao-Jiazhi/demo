@@ -4,7 +4,7 @@
     <dv-border-box-8 style="border-color: red">
       <!-- <div style="width:500px;height:800px"></div> -->
       <div class="title-container">
-        <h1 class="title"> M 登 录 页 面</h1>
+        <h1 class="title">M 登 录 页 面</h1>
       </div>
       <!-- <dv-decoration-3 style="width:250px;height:30px;" /> -->
       <el-form
@@ -15,14 +15,48 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="用户名" prop="age">
-          <el-input class="inputSize" v-model="ruleForm.age"></el-input>
+        <el-form-item label="用户名" prop="userName">
+          <el-input
+            class="inputSize"
+            v-model="ruleForm.userName"
+            @focus="handleFocus"
+            @blur="handleBlur"
+          ></el-input>
+          <div
+            class="all"
+            v-show="allFlag"
+            style="
+              position: absolute;
+              left: 2px;
+              top: 40px;
+              width: 469px;
+              height: 200px;
+              padding-top: 0;
+            "
+          >
+            <ul
+              style="
+                width: 100%;
+                height: 200px;
+                padding-bottom: 30px;
+                padding-top: 5px;
+              "
+            >
+              <li
+                v-for="item in allUserName"
+                :key="item"
+                @click="handleChoose($event)"
+              >
+                {{ item }}
+              </li>
+            </ul>
+          </div>
         </el-form-item>
-        <el-form-item label="密码" prop="pass">
+        <el-form-item label="密码" prop="password">
           <el-input
             class="inputSize"
             type="password"
-            v-model="ruleForm.pass"
+            v-model="ruleForm.password"
             autocomplete="off"
           ></el-input>
         </el-form-item>
@@ -40,60 +74,57 @@
 <script>
 export default {
   data() {
-    var checkAge = (rule, value, callback) => {
+    var checkUserName = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("用户名不能为空"));
       }
-      // setTimeout(() => {
-      //   if (!Number.isInteger(value)) {
-      //     callback(new Error('请输入数字值'));
-      //   } else {
-      //     if (value < 18) {
-      //       callback(new Error('必须年满18岁'));
-      //     } else {
-      //       callback();
-      //     }
-      //   }
-      // }, 1000);
+      callback();
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
       } else {
-        if (this.ruleForm.checkPass !== "") {
-          this.$refs.ruleForm.validateField("checkPass");
-        }
+        // if (this.ruleForm.checkPass !== "") {
+        //   this.$refs.ruleForm.validateField("checkPass");
+        // }
         callback();
       }
     };
-    // var validatePass2 = (rule, value, callback) => {
-    //   if (value === '') {
-    //     callback(new Error('请再次输入密码'));
-    //   } else if (value !== this.ruleForm.pass) {
-    //     callback(new Error('两次输入密码不一致!'));
-    //   } else {
-    //     callback();
-    //   }
-    // };
     return {
       ruleForm: {
-        pass: "",
-        age: "",
+        password: "",
+        userName: "",
       },
+      allUserName:[],
+      allFlag: false,
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        // checkPass: [
-        //   { validator: validatePass2, trigger: 'blur' }
-        // ],
-        age: [{ validator: checkAge, trigger: "blur" }],
+        password: [{ validator: validatePass, trigger: "blur" }],
+        userName: [{ validator: checkUserName, trigger: "blur" }],
       },
     };
+  },
+  created(){
+    console.log(this.$store.state.allUserName)
+    this.allUserName = this.$store.state.allUserName.map(item=>item.name)
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          // alert("submit!");
+          let params = {
+            userName: this.ruleForm.userName,
+            password: this.ruleForm.password
+          }
+          console.log(params)
+          var flag = this.$store.state.allUserName.findIndex(item=>(item.name == params.userName && item.pass == params.password) )
+          if(flag !== -1){
+            console.log('路由跳转了')
+              this.$router.push({ path: '/helloWorld', query: params })
+          } else{
+            this.$message.error('用户名或密码错误');
+          }
+          console.log(flag)
         } else {
           console.log("error submit!!");
           return false;
@@ -102,6 +133,16 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    handleFocus() {
+      this.allFlag = true;
+    },
+    handleBlur() {
+      setTimeout(() => (this.allFlag = false), 500);
+    },
+    handleChoose(e) {
+      this.ruleForm.userName = e.target.innerText;
+      console.log(e);
     },
   },
 };
@@ -174,4 +215,32 @@ export default {
   border: 1px solid transparent;
   border-bottom-color: thistle;
 }
+.all{
+    background-color: #0b0d1f;
+    z-index: 999;
+    padding: 20px;
+    color: #343434;
+    ul{
+    list-style: none;
+    padding: 0;
+    z-index: 999;
+    overflow: auto;
+    // overflow-y: scroll;
+    li{
+      color: #fff;
+      font-size: 24px;
+    z-index: 999;
+    }
+    li:nth-of-type(2){
+      margin-bottom: 0;
+    }
+    li{
+      &:hover{
+        background-color: #666;
+        cursor: pointer;
+        z-index: 999;
+      }
+    }
+    }
+  }
 </style>
