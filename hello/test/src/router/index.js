@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import test1 from '@/components/test1'
 import test2 from '@/components/test2'
 import Login from '@/views/login'
+import regist from '@/views/regist'
 
 
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
       path: '/test2',
       name: 'test2',
       component: test2
+    },
+    {
+      path: '/regist',
+      name: 'regist',
+      component: regist
     }
   ]
 })

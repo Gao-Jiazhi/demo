@@ -65,6 +65,9 @@
             >提交</el-button
           >
           <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <router-link to="/regist">
+            <span>注册</span>
+          </router-link>
         </el-form-item>
       </el-form>
     </dv-border-box-8>
@@ -147,7 +150,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .login-container {
   display: flex;
   align-items: center;
@@ -166,6 +169,7 @@ export default {
 }
 
 .demo-ruleForm {
+  margin: auto;
   width: 720px;
   height: 480px;
   text-align: center;
@@ -177,14 +181,12 @@ export default {
   // position: relative;
 }
 .title-container {
-  position: absolute;
-  left: 1100px;
-  top: 290px;
-
+margin: auto;
+margin-top: 150px;
   .title {
     font-size: 32px;
     color: #fff;
-    margin: 0px auto 40px auto;
+    margin: 0px auto -67px auto;
     text-align: center;
     font-weight: bold;
   }

@@ -17,7 +17,6 @@
 </el-menu>
  <div class="main-content">
         <div class="block-left-right-content">
-
             <div class="block-top-bottom-content">
             <div class="block-top-content">
               <rose-chart  style="margin-bottom:30px"/>

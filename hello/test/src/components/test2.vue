@@ -7,18 +7,18 @@
     <el-table :data="tableData"  height="500" :key="itemkey" size="mini" fit="false" :header-cell-style="{background:'#4DFFFF',color:'#606266'}">
       <el-table-column :render-header="renderHeader" label="C508机组通道线的点检表,2819218" align="center">
         <el-table-column>
-          <el-table-column label="序号" width="150" align="center">
+          <el-table-column label="序号" min-width="1" align="center">
             <template slot-scope="scope">
             {{scope.$index +1}}
             </template>
           </el-table-column>
-          <el-table-column label="地点、设备" width="120" align="center">
+          <el-table-column label="地点、设备" min-width="1" align="center">
             <template slot-scope="scope">
             {{scope.row.adress}}
             </template>
           </el-table-column>
           <el-table-column label="检查情况" align="center">
-            <el-table-column label="照片" width="180" align="center">
+            <el-table-column label="照片" min-width="2" align="center">
               <template slot-scope="scope">
                 <!-- :class="{disabled:uploadDisabled}" -->
               <el-upload :limit='1' action="#" list-type="picture-card" :on-change="(file, fileList) => {fileChange(file, fileList, scope.$index,scope)}" class="disabled1"  :auto-upload="false" :ref="'pictureUpload'+scope.$index">
@@ -41,14 +41,14 @@
                </template>
               <el-button @click="takephoto">拍照</el-button>
             </el-table-column>
-            <el-table-column label="上传时间" width='100' align="center">
+            <el-table-column label="上传时间" min-width='1' align="center">
               <template slot-scope="scope">
               {{scope.row.time1}}
               </template>
             </el-table-column>
 
 
-            <el-table-column label="记录" width="150" align="center" >
+            <el-table-column label="记录" min-width="2" align="center" >
               <template slot-scope="scope">
               <el-select  @change="handleclick" v-model="scope.row.record" clearable placeholder="请选择" allow-create filterable>
                 <el-option
@@ -61,7 +61,7 @@
               </template>
             </el-table-column>
           </el-table-column>
-          <el-table-column label="责任方" width="120" align="center">
+          <el-table-column label="责任方" min-width="1" align="center">
             <template slot-scope="scope">
             <el-select  @change="handleclick" v-model="scope.row.chargePerson" clearable placeholder="请选择">
               <el-option
@@ -73,7 +73,7 @@
             </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="checkperson" label="检查人" width="120" align="center">
+          <el-table-column prop="checkperson" label="检查人" min-width="1" align="center">
             <template slot-scope="scope">
             <el-select  @change="handleclick" v-model="scope.row.checkPerson" clearable placeholder="请选择">
               <el-option
@@ -85,7 +85,7 @@
             </el-select>
             </template>
           </el-table-column>
-          <el-table-column label="处理结果" width="180" align="center">
+          <el-table-column label="处理结果" min-width="2" align="center">
             <template slot-scope="scope">
             <el-upload action="#" list-type="picture-card" :on-change="(file, fileList) => {fileChange2(file, fileList, scope.$index,scope)}" class="disabled2" :auto-upload="false" :ref="'pictureUploa'+scope.$index">
               <i slot="default" class="el-icon-plus"></i>
@@ -107,21 +107,21 @@
             </template>
             <el-button @click="takephoto">拍照</el-button>
           </el-table-column>
-          <el-table-column label="上传时间" width='100' align="center">
+          <el-table-column label="上传时间" min-width='1' align="center">
             <template slot-scope="scope">
             {{scope.row.time2}}
             </template>
           </el-table-column>
-          <el-table-column label="评价" width='100' align="center">
+          <el-table-column label="评价" min-width='1' align="center">
             <template slot-scope="scope">
-            <el-select  @change="handleclick" v-model="scope.row.assess" clearable placeholder="请选择">
+            <el-select  @change="handleclick1" v-model="scope.row.assess" clearable placeholder="请选择">
             <el-option label="1" value="1"><i class="iconfont icon-radio-on"></i></el-option>
             <el-option label="0.5" value="0.5"><i class="iconfont icon-insert-top"></i></el-option>
             <el-option label="0" value="0"><i class="iconfont icon-cha"></i></el-option>
             </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="defineperson" label="确认人" width="120" align="center">
+          <el-table-column prop="defineperson" label="确认人" min-width="1" align="center">
             <template slot-scope="scope">
             <el-select  @change="handleclick" v-model="scope.row.confirmPerson" clearable placeholder="请选择">
               <el-option
@@ -133,7 +133,7 @@
             </el-select>
             </template>
           </el-table-column>
-          <el-table-column prop="note" label="备注" width="120" align="center">
+          <el-table-column prop="note" label="备注" min-width="1" align="center">
           </el-table-column>
         </el-table-column>
       </el-table-column>
@@ -300,7 +300,8 @@ export default {
       img1arry:[],
       img2arry:[],
       img2:'',
-      totalCount:0
+      totalCount:0,
+      prevalue:0
     }
   },
 computed: {
@@ -328,8 +329,6 @@ watch:{
               //TODO handle the exception
               alert(e)
             }
-
-
         }, onErrorCreateFile);
       }, this.onErrorLoadFs)
     },
@@ -629,8 +628,15 @@ watch:{
       this.tableData.push({ events: [], name: '' })
       this.tableData.splice(this.tableData.length - 1, 1)
     },
+    handleclick1 (values) {
+      this.totalCount -= this.prevalue
+      this.prevalue = Number(values)
+      this.tableData.push({ events: [], name: '' })
+      this.tableData.splice(this.tableData.length - 1, 1)
+      this.totalCount += Number(values)
+    },
     totalAdd(val){
-      this.totalCount += val
+      this.totalCount += Number(val)
     },
     //调用相机进行拍照
     takephoto () {
@@ -689,5 +695,4 @@ clear: both;
 .disabled .el-upload--picture-card {
     display: none;
 }
-
 </style>
